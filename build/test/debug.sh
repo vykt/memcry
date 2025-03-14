@@ -1,2 +1,2 @@
 #!/bin/sh
-gdb -x init.gdb --args ./test -p "$@"
+gdb -x memcry.gdb --args ./test -p "$@"
