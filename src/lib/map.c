@@ -76,10 +76,16 @@ DBG_STATIC
 void _map_new_vm_obj(mc_vm_obj * obj, 
                      mc_vm_map * map, const char * pathname) {
 
-    const char * basename = mc_pathname_to_basename(pathname);
+    size_t len;
 
-    strncpy(obj->pathname, pathname, PATH_MAX);
-    strncpy(obj->basename, basename, NAME_MAX);
+
+    //allocate space for the pathname
+    len = strnlen(pathname, PATH_MAX);
+    obj->pathname = calloc(sizeof(char), len + 1);
+
+    //construct pathname
+    strncpy(obj->pathname, pathname, len);
+    obj->basename = mc_pathname_to_basename(obj->pathname);
 
     obj->start_addr = MC_UNDEF_ADDR;
     obj->end_addr = MC_UNDEF_ADDR;
@@ -101,6 +107,7 @@ void _map_new_vm_obj(mc_vm_obj * obj,
 DBG_STATIC
 void _map_del_vm_obj(mc_vm_obj * obj) {
 
+    free(obj->pathname);
     cm_del_lst(&obj->vm_area_node_ps);
     cm_del_lst(&obj->last_vm_area_node_ps);
 
@@ -1036,8 +1043,9 @@ int mc_del_vm_map(mc_vm_map * map) {
         obj = MC_GET_NODE_OBJ(obj_node);
 
         //destroy the object's list
-        cm_del_lst(&obj->vm_area_node_ps);
-        cm_del_lst(&obj->last_vm_area_node_ps);
+        _map_del_vm_obj(obj);
+        //cm_del_lst(&obj->vm_area_node_ps);
+        //cm_del_lst(&obj->last_vm_area_node_ps);
 
         //advance iteration
         obj_node = obj_node->next;
@@ -1091,7 +1099,7 @@ int mc_map_clean_unmapped(mc_vm_map * map) {
         //delete the unmapped object and its node
         del_node = MC_GET_NODE_PTR(node);
         obj = MC_GET_NODE_OBJ(del_node);
-        
+
         _map_del_vm_obj(obj);
         cm_del_lst_node(del_node);
 

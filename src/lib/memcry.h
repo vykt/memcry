@@ -80,8 +80,8 @@ typedef struct {
     int id;
     bool mapped; //set to false when a map update discovers obj. to be unmapped
 
-    char basename[NAME_MAX];
-    char pathname[PATH_MAX];
+    char * basename; //[restrict .NAME_MAX]
+    char * pathname; //[restrict .PATH_MAX]
 
 } mc_vm_obj;
 

@@ -391,6 +391,11 @@ static void _teardown_vm_map() {
         node = node->next;
     }
 
+    //deallocate names of objects
+    for (int i = 0; i < STUB_MAP_OBJ_NUM; ++i) {
+        free(m_o[i].pathname);
+    }
+
     //remove static objects & areas
     _map_remove_static(&m.vm_objs, m_o_n,
                        STUB_MAP_OBJ_NUM, sizeof(cm_lst_node), false);
@@ -537,6 +542,8 @@ START_TEST(test__map_new_del_vm_obj) {
     assert_vm_obj(&obj, "/foo/bar", "bar",
                   MC_UNDEF_ADDR, MC_UNDEF_ADDR, 0, 0, 0, true);
     assert_vm_map(&m, 0, 1, 0, 0, 0, 1);
+
+    _map_del_vm_obj(&obj);
 
     return;
 }
