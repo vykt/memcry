@@ -34,6 +34,10 @@ void _map_init_vm_area(mc_vm_area * area, const struct vm_entry * entry,
 
     mc_vm_obj * obj;
 
+
+    //zero the area
+    memset(area, 0, sizeof(*area));
+
     //set pathname for area if applicable
     if (obj_node != NULL) {
 
@@ -78,6 +82,9 @@ void _map_new_vm_obj(mc_vm_obj * obj,
 
     size_t len;
 
+
+    //zero the obj
+    memset(obj, 0, sizeof(*obj));
 
     //allocate space for the pathname
     len = strnlen(pathname, PATH_MAX);
@@ -982,8 +989,8 @@ int map_send_entry(const struct vm_entry * entry,
 
 void map_init_traverse_state(_traverse_state * state, const mc_vm_map * map) {
 
-    state->next_area_node = map->vm_areas.head;
-    state->prev_obj_node = map->vm_objs.head;
+    state->next_area_node = map->vm_areas.len == 0 ? NULL : map->vm_areas.head;
+    state->prev_obj_node = map->vm_objs.len == 0 ? NULL : map->vm_objs.head;
 
     return;
 }
@@ -998,6 +1005,9 @@ void mc_new_vm_map(mc_vm_map * map) {
 
     //pseudo object, will adopt leading parentless vm_areas
     mc_vm_obj zero_obj;
+
+    //zero the map
+    memset(map, 0, sizeof(*map));
 
     //initialise lists
     cm_new_lst(&map->vm_areas, sizeof(mc_vm_area));
