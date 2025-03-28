@@ -201,8 +201,8 @@ cm_lst_node * _obj_name_find(const mc_vm_map * vm_map,
  *  --- [EXTERNAL] ---
  */
 
-off_t mc_get_area_offset(const cm_lst_node * area_node,
-                         const uintptr_t addr) {
+off_t mc_get_area_off(const cm_lst_node * area_node,
+                      const uintptr_t addr) {
 
     mc_vm_area * vm_area = MC_GET_NODE_AREA(area_node);
 
@@ -210,8 +210,8 @@ off_t mc_get_area_offset(const cm_lst_node * area_node,
 }
 
 
-off_t mc_get_obj_offset(const cm_lst_node * obj_node,
-                        const uintptr_t addr) {
+off_t mc_get_obj_off(const cm_lst_node * obj_node,
+                     const uintptr_t addr) {
 
     mc_vm_obj * vm_obj = MC_GET_NODE_OBJ(obj_node);
 
@@ -219,8 +219,8 @@ off_t mc_get_obj_offset(const cm_lst_node * obj_node,
 }
 
 
-off_t mc_get_area_offset_bnd(const cm_lst_node * area_node, 
-                             const uintptr_t addr) {
+off_t mc_get_area_off_bnd(const cm_lst_node * area_node, 
+                          const uintptr_t addr) {
 
     mc_vm_area * vm_area = MC_GET_NODE_AREA(area_node);
 
@@ -229,8 +229,8 @@ off_t mc_get_area_offset_bnd(const cm_lst_node * area_node,
 }
 
 
-off_t mc_get_obj_offset_bnd(const cm_lst_node * obj_node, 
-                            const uintptr_t addr) {
+off_t mc_get_obj_off_bnd(const cm_lst_node * obj_node, 
+                         const uintptr_t addr) {
 
     mc_vm_obj * vm_obj = MC_GET_NODE_OBJ(obj_node);
 
@@ -239,38 +239,36 @@ off_t mc_get_obj_offset_bnd(const cm_lst_node * obj_node,
 }
 
 
-cm_lst_node * mc_get_area_node_by_addr(const mc_vm_map * vm_map, 
-                                       const uintptr_t addr,
-                                       off_t * offset) {
+cm_lst_node * mc_get_area_by_addr(const mc_vm_map * vm_map, 
+                                  const uintptr_t addr, off_t * offset) {
 
     cm_lst_node * area_node;
 
     area_node = _fast_addr_find(vm_map, addr, _MAP_UTIL_GET_AREA);
     if (!area_node) return NULL;
 
-    if (offset != NULL) *offset = mc_get_area_offset(area_node, addr);
+    if (offset != NULL) *offset = mc_get_area_off(area_node, addr);
 
     return area_node;
 }
 
 
-cm_lst_node * mc_get_obj_node_by_addr(const mc_vm_map * vm_map, 
-                                      const uintptr_t addr,
-                                      off_t * offset) {
+cm_lst_node * mc_get_obj_by_addr(const mc_vm_map * vm_map, 
+                                 const uintptr_t addr, off_t * offset) {
 
     cm_lst_node * obj_node;
 
     obj_node = _fast_addr_find(vm_map, addr, _MAP_UTIL_GET_OBJ);
     if (!obj_node) return NULL;
 
-    if (offset != NULL) *offset = mc_get_obj_offset(obj_node, addr);
+    if (offset != NULL) *offset = mc_get_obj_off(obj_node, addr);
 
     return obj_node;
 }
 
 
-cm_lst_node * mc_get_obj_node_by_pathname(const mc_vm_map * vm_map, 
-                                          const char * pathname) {
+cm_lst_node * mc_get_obj_by_pathname(const mc_vm_map * vm_map, 
+                                     const char * pathname) {
 
     cm_lst_node * obj_node;
 
@@ -281,8 +279,8 @@ cm_lst_node * mc_get_obj_node_by_pathname(const mc_vm_map * vm_map,
 }
 
 
-cm_lst_node * mc_get_obj_node_by_basename(const mc_vm_map * vm_map, 
-                                          const char * basename) {
+cm_lst_node * mc_get_obj_by_basename(const mc_vm_map * vm_map, 
+                                     const char * basename) {
 
     cm_lst_node * obj_node;
 

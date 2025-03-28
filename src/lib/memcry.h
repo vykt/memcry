@@ -177,28 +177,26 @@ extern int mc_map_clean_unmapped(mc_vm_map * map);
 
 // --- [map util]
 //return: offset from start of area/object
-extern off_t mc_get_area_offset(const cm_lst_node * area_node,
-                                const uintptr_t addr);
-extern off_t mc_get_obj_offset(const cm_lst_node * obj_node,
-                               const uintptr_t addr);
+extern off_t mc_get_area_off(const cm_lst_node * area_node,
+                             const uintptr_t addr);
+extern off_t mc_get_obj_off(const cm_lst_node * obj_node,
+                            const uintptr_t addr);
 //return: offset from start of area/object = success, -1 = not in area/object
-extern off_t mc_get_area_offset_bnd(const cm_lst_node * area_node, 
-                                    const uintptr_t addr);
-extern off_t mc_get_obj_offset_bnd(const cm_lst_node * obj_node, 
-                                   const uintptr_t addr);
+extern off_t mc_get_area_off_bnd(const cm_lst_node * area_node, 
+                                 const uintptr_t addr);
+extern off_t mc_get_obj_off_bnd(const cm_lst_node * obj_node, 
+                                const uintptr_t addr);
 
 //return area node * = success, NULL = fail/error
-extern cm_lst_node * mc_get_area_node_by_addr(const mc_vm_map * vm_map, 
-                                              const uintptr_t addr,
-                                              off_t * offset);
+extern cm_lst_node * mc_get_area_by_addr(const mc_vm_map * vm_map, 
+                                         const uintptr_t addr, off_t * offset);
 //return obj node * = success, NULL = fail/error
-extern cm_lst_node * mc_get_obj_node_by_addr(const mc_vm_map * vm_map, 
-                                             const uintptr_t addr,
-                                             off_t * offset);
-extern cm_lst_node * mc_get_obj_node_by_pathname(const mc_vm_map * vm_map, 
-                                                 const char * pathname);
-extern cm_lst_node * mc_get_obj_node_by_basename(const mc_vm_map * vm_map, 
-                                                 const char * basename);
+extern cm_lst_node * mc_get_obj_by_addr(const mc_vm_map * vm_map, 
+                                        const uintptr_t addr, off_t * offset);
+extern cm_lst_node * mc_get_obj_by_pathname(const mc_vm_map * vm_map, 
+                                            const char * pathname);
+extern cm_lst_node * mc_get_obj_by_basename(const mc_vm_map * vm_map, 
+                                            const char * basename);
 
 
 // --- [error handling]
