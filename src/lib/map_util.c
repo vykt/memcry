@@ -289,3 +289,23 @@ cm_lst_node * mc_get_obj_by_basename(const mc_vm_map * vm_map,
 
     return obj_node;
 }
+
+
+void mc_access_to_str(const cm_byte access, char * str_buf) {
+
+    cm_byte bit_mask = 1;
+    const char * on  = "rwxs";
+    const char * off = "---p";
+
+    //for every bit in the access mask
+    for (int i = 0; i < 4; ++i) {
+
+        //convert the permission bit to its character representation
+        str_buf[i] = (bit_mask << i) & access ? on[i] : off[i];
+    }
+
+    //add a NULL terminator
+    str_buf[4] = '\0';
+
+    return;
+}

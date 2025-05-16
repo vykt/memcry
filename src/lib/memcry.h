@@ -151,6 +151,7 @@ typedef struct _mc_session mc_session;
 extern char * mc_pathname_to_basename(const char * pathname);
 //must destroy 'pid_vector' manually on success | pid = success, -1 = fail/error
 extern pid_t mc_pid_by_name(const char * comm, cm_vct * pid_vector);
+//`name_buf` must be at least NAME_MAX in size.
 //return: 0 = success, -1 = fail/error
 extern int mc_name_by_pid(const pid_t pid, char * name_buf);
 //'out' must have space for double the length of 'inp' + 1
@@ -187,16 +188,19 @@ extern off_t mc_get_area_off_bnd(const cm_lst_node * area_node,
 extern off_t mc_get_obj_off_bnd(const cm_lst_node * obj_node, 
                                 const uintptr_t addr);
 
-//return area node * = success, NULL = fail/error
+//return: area node * = success, NULL = fail/error
 extern cm_lst_node * mc_get_area_by_addr(const mc_vm_map * vm_map, 
                                          const uintptr_t addr, off_t * offset);
-//return obj node * = success, NULL = fail/error
+//return: obj node * = success, NULL = fail/error
 extern cm_lst_node * mc_get_obj_by_addr(const mc_vm_map * vm_map, 
                                         const uintptr_t addr, off_t * offset);
 extern cm_lst_node * mc_get_obj_by_pathname(const mc_vm_map * vm_map, 
                                             const char * pathname);
 extern cm_lst_node * mc_get_obj_by_basename(const mc_vm_map * vm_map, 
                                             const char * basename);
+//`str_buf` must be at least 5 bytes in size.
+//return: 0 = success, -1 = fail/error
+extern void mc_access_to_str(const cm_byte access, char * str_buf);
 
 
 // --- [error handling]

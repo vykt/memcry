@@ -283,7 +283,6 @@ START_TEST(test_mc_get_obj_by_pathname) {
 //mc_get_obj_by_basename() [target_fixture]
 START_TEST(test_mc_get_obj_by_basename) {
 
-
     cm_lst_node * ret_n;
 
     mc_vm_obj * o;
@@ -310,6 +309,38 @@ START_TEST(test_mc_get_obj_by_basename) {
 } END_TEST
 
 
+//mc_access_to_str() [no fixture]
+START_TEST(test_mc_access_to_str) {
+
+    cm_byte accesses[16] = {
+        0b0000, 0b0001, 0b0010, 0b0011,
+        0b0100, 0b0101, 0b0110, 0b0111,
+        0b1000, 0b1001, 0b1010, 0b1011,
+        0b1100, 0b1101, 0b1110, 0b1111
+    };
+
+    char * access_strings[16] = {
+        "---p", "r--p", "-w-p", "rw-p",
+        "--xp", "r-xp", "-wxp", "rwxp",
+        "---s", "r--s", "-w-s", "rw-s",
+        "--xs", "r-xs", "-wxs", "rwxs",
+    };
+
+    char str_buf[5];
+
+
+    //only test: try every access combination
+    for (int i = 0; i < 16; ++i) {
+
+        mc_access_to_str(accesses[i], str_buf);
+        ck_assert_str_eq(str_buf, access_strings[i]);
+    }
+
+    return;
+
+} END_TEST
+
+
 
 /*
  *  --- [SUITE] ---
@@ -326,6 +357,7 @@ Suite * map_util_suite() {
     TCase * tc_get_obj_by_addr;
     TCase * tc_get_obj_by_pathname;
     TCase * tc_get_obj_by_basename;
+    TCase * tc_access_to_str;
 
     Suite * s = suite_create("map_util");
 
@@ -380,6 +412,10 @@ Suite * map_util_suite() {
     tcase_add_test(tc_get_obj_by_basename,
                    test_mc_get_obj_by_basename);
 
+    //tc_access_to_str
+    tc_access_to_str = tcase_create("access_to_str");
+    tcase_add_test(tc_access_to_str, test_mc_access_to_str);
+
 
     //add test cases to map util test suite
     suite_add_tcase(s, tc_get_area_off);
@@ -390,6 +426,7 @@ Suite * map_util_suite() {
     suite_add_tcase(s, tc_get_obj_by_addr);
     suite_add_tcase(s, tc_get_obj_by_pathname);
     suite_add_tcase(s, tc_get_obj_by_basename);
+    suite_add_tcase(s, tc_access_to_str);
 
     return s;
 }

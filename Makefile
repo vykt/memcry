@@ -32,7 +32,7 @@ ifeq ($(build),debug)
 	CFLAGS_TEST += -DDEBUG
 	LDFLAGS     += -static-libasan
 else
-	CFLAGS += -O3
+	CFLAGS += -O3 -flto
 endif
 
 
