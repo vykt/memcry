@@ -15,6 +15,10 @@
 - Support for **multiple interfaces** for acquiring the memory maps, reading and writing memory.
 - Multiple convenient utilities.
 
+**Planned**:
+
+- An interface for operating on coredumps instead of live processes.
+
 <p align="center">
     <img src="media/overview.png">
 </p>
